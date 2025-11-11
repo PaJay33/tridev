@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon CV | PaJay Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Space Grotesk', sans-serif; }
+        code, .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e2e8f0;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .animated-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            overflow: hidden;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 245, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+            animation: drift 20s ease-in-out infinite;
+        }
+        
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-3%, 3%); }
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #00f5ff 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #00f5ff 0%, #3b82f6 100%);
+            color: #0a0e27;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.4);
+        }
+        
+        .btn-outline {
+            border: 2px solid #00f5ff;
+            color: #00f5ff;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background: #00f5ff;
+            color: #0a0e27;
+        }
+        
+        nav {
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+        }
+
+        .pdf-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 200px);
+            min-height: 600px;
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 245, 255, 0.2);
+        }
+
+        .loading-spinner {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .loading-spinner.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0, 245, 255, 0.2);
+            border-top: 5px solid #00f5ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 1rem;
+            color: #fca5a5;
+        }
+
+        .error-message.active {
+            display: block;
+        }
+
+        .action-buttons {
+            position: sticky;
+            bottom: 2rem;
+            z-index: 20;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 9999px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+                width: calc(100% - 2rem);
+            }
+        }
+    </style>
+</head>
+<body class="relative">
+    
+    <div class="animated-bg"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <i class="fas fa-arrow-left text-cyan-400"></i>
+                    <span class="text-xl font-bold gradient-text">&lt;Accueil/&gt;</span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-400 hidden sm:block">Mon Curriculum Vitae</span>
+                    <a href="CV_Yatmapro.pdf" download class="text-cyan-400 hover:text-cyan-300 transition">
+                        <i class="fas fa-download text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="relative pt-24 px-4 pb-8">
+        <div class="max-w-6xl mx-auto z-10">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="mb-4">
+                    <div class="inline-block bg-gradient-to-br from-cyan-500 to-blue-500 p-4 rounded-2xl">
+                        <i class="fas fa-file-pdf text-4xl text-white"></i>
+                    </div>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-3 gradient-text">Mon CV</h1>
+                <p class="text-gray-400 text-lg">Yatma Dieye - Développeur Full-Stack & IA</p>
+            </div>
+
+            <!-- PDF Viewer Container -->
+            <div class="glass rounded-2xl p-4 md:p-8 mb-8">
+                <div class="pdf-container relative">
+                    <div id="loading" class="loading-spinner active">
+                        <div class="spinner"></div>
+                        <p class="text-cyan-400 mt-4">Chargement du CV...</p>
+                    </div>
+                    
+                    <div id="error" class="error-message">
+                        <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Votre navigateur ne peut pas afficher le PDF</h3>
+                        <p class="mb-4">Utilisez l'une des options ci-dessous pour consulter mon CV :</p>
+                        <div class="flex flex-col gap-3">
+                            <a href="CV_Yatmapro.pdf" target="_blank" class="btn-primary px-6 py-3 rounded-full inline-flex items-center justify-center">
+                                <i class="fas fa-external-link-alt mr-2"></i>Ouvrir le PDF dans un nouvel onglet
+                            </a>
+                            <button onclick="forceDownload()" class="btn-outline px-6 py-3 rounded-full inline-flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i>Télécharger le CV
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Primary Viewer: Embed -->
+                    <embed 
+                        id="pdf-embed"
+                        class="pdf-viewer" 
+                        src="CV_Yatmapro.pdf#toolbar=1&navpanes=0&scrollbar=1&view=FitH"
+                        type="application/pdf"
+                        title="CV Yatma Dieye"
+                        onload="handlePdfLoad()"
+                        onerror="handlePdfError()">
+                    
+                    <!-- Fallback Viewer: iFrame (hidden by default) -->
+                    <iframe 
+                        id="pdf-viewer"
+                        class="pdf-viewer" 
+                        style="display: none;"
+                        src="CV_Yatmapro.pdf#toolbar=1&navpanes=0&scrollbar=1&view=FitH"
+                        type="application/pdf"
+                        title="CV Yatma Dieye">
+                    </iframe>
+                    
+                    <!-- Alternative: Object -->
+                    <object 
+                        id="pdf-object"
+                        class="pdf-viewer"
+                        style="display: none;"
+                        data="CV_Yatmapro.pdf#toolbar=1&navpanes=0&scrollbar=1&view=FitH" 
+                        type="application/pdf">
+                    </object>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button onclick="forceDownload()" class="btn-primary px-6 py-3 rounded-full inline-flex items-center">
+                    <i class="fas fa-download mr-2"></i>Télécharger
+                </button>
+                <a href="CV_Yatmapro.pdf" target="_blank" class="btn-outline px-6 py-3 rounded-full inline-flex items-center">
+                    <i class="fas fa-external-link-alt mr-2"></i>Ouvrir en plein écran
+                </a>
+                <button onclick="printCV()" class="glass px-6 py-3 rounded-full inline-flex items-center border border-purple-500/30 hover:border-purple-500 transition">
+                    <i class="fas fa-print mr-2"></i>Imprimer
+                </button>
+                <a href="index.html#contact" class="glass px-6 py-3 rounded-full inline-flex items-center border border-cyan-500/30 hover:border-cyan-500 transition">
+                    <i class="fas fa-paper-plane mr-2"></i>Me contacter
+                </a>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="grid md:grid-cols-3 gap-6 mt-12">
+                <div class="glass rounded-2xl p-6 text-center">
+                    <i class="fas fa-graduation-cap text-3xl text-cyan-400 mb-3"></i>
+                    <h3 class="font-bold text-lg mb-2">Formation</h3>
+                    <p class="text-gray-400 text-sm">DEC Programmation Web & IA</p>
+                    <p class="text-cyan-400 text-xs">Institut Teccart - 2025</p>
+                </div>
+
+                <div class="glass rounded-2xl p-6 text-center">
+                    <i class="fas fa-briefcase text-3xl text-green-400 mb-3"></i>
+                    <h3 class="font-bold text-lg mb-2">Expérience</h3>
+                    <p class="text-gray-400 text-sm">Développeur (Stage)</p>
+                    <p class="text-green-400 text-xs">SynthèseIA & Afriweb</p>
+                </div>
+
+                <div class="glass rounded-2xl p-6 text-center">
+                    <i class="fas fa-code text-3xl text-purple-400 mb-3"></i>
+                    <h3 class="font-bold text-lg mb-2">Compétences</h3>
+                    <p class="text-gray-400 text-sm">React • Node.js • Python</p>
+                    <p class="text-purple-400 text-xs">ML • IoT • Full-Stack</p>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="glass rounded-2xl p-8 text-center mt-12">
+                <h3 class="text-2xl font-bold mb-4 gradient-text">Intéressé par mon profil ?</h3>
+                <p class="text-gray-300 mb-6">Contactez-moi pour discuter d'opportunités ou de projets</p>
+                <div class="flex justify-center gap-4 flex-wrap">
+                    <a href="mailto:dieyeyatma33@gmail.com" class="btn-primary px-8 py-4 rounded-full inline-flex items-center">
+                        <i class="fas fa-envelope mr-2"></i>Envoyer un email
+                    </a>
+                    <a href="https://linkedin.com/in/votre-profil" target="_blank" class="btn-outline px-8 py-4 rounded-full inline-flex items-center">
+                        <i class="fab fa-linkedin mr-2"></i>LinkedIn
+                    </a>
+                    <a href="https://github.com/PaJay33" target="_blank" class="glass px-8 py-4 rounded-full inline-flex items-center border border-cyan-500/30 hover:border-cyan-500 transition">
+                        <i class="fab fa-github mr-2"></i>GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="relative py-12 px-4 border-t border-cyan-500/20 mt-12">
+        <div class="max-w-7xl mx-auto text-center z-10">
+            <p class="text-xl mb-2 mono gradient-text">&lt;/&gt; PaJay</p>
+            <p class="text-gray-400">Développeur Full-Stack & Intelligence Artificielle</p>
+            <p class="text-gray-500 text-sm mt-4">© 2025 Tous droits réservés</p>
+        </div>
+    </footer>
+
+    <script>
+        // Force download function
+        function forceDownload() {
+            const link = document.createElement('a');
+            link.href = 'CV_Yatmapro.pdf';
+            link.download = 'CV_Yatma_Dieye_Developpeur_Web_IA.pdf';
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Si le téléchargement ne fonctionne pas, ouvrir dans un nouvel onglet
+            setTimeout(() => {
+                window.open('CV_Yatmapro.pdf', '_blank');
+            }, 500);
+        }
+
+        // Print CV function
+        function printCV() {
+            const embed = document.getElementById('pdf-embed');
+            const iframe = document.getElementById('pdf-viewer');
+            
+            if (embed && embed.contentWindow) {
+                embed.contentWindow.print();
+            } else if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.print();
+            } else {
+                // Fallback: ouvrir le PDF dans une nouvelle fenêtre pour imprimer
+                window.open('CV_Yatmapro.pdf', '_blank');
+            }
+        }
+
+        function handlePdfLoad() {
+            document.getElementById('loading').classList.remove('active');
+            console.log('PDF chargé avec succès');
+        }
+
+        function handlePdfError() {
+            console.log('Tentative de chargement avec méthodes alternatives...');
+            
+            // Essayer avec iframe
+            const embed = document.getElementById('pdf-embed');
+            const iframe = document.getElementById('pdf-viewer');
+            const error = document.getElementById('error');
+            
+            if (embed) embed.style.display = 'none';
+            
+            // Essayer iframe
+            iframe.style.display = 'block';
+            
+            setTimeout(() => {
+                // Si toujours pas chargé après 2 secondes, essayer object
+                if (!iframe.contentWindow || !iframe.contentWindow.document) {
+                    iframe.style.display = 'none';
+                    const obj = document.getElementById('pdf-object');
+                    if (obj) obj.style.display = 'block';
+                    
+                    // Si object ne marche pas non plus, afficher l'erreur
+                    setTimeout(() => {
+                        document.getElementById('loading').classList.remove('active');
+                        error.classList.add('active');
+                    }, 2000);
+                } else {
+                    document.getElementById('loading').classList.remove('active');
+                }
+            }, 2000);
+        }
+
+        // Timeout de sécurité pour le chargement
+        setTimeout(function() {
+            const loading = document.getElementById('loading');
+            if (loading.classList.contains('active')) {
+                loading.classList.remove('active');
+                
+                // Vérifier si le PDF est visible
+                const embed = document.getElementById('pdf-embed');
+                const iframe = document.getElementById('pdf-viewer');
+                
+                if ((!embed || embed.style.display === 'none') && 
+                    (!iframe || iframe.style.display === 'none')) {
+                    // Si rien n'est visible, afficher le message d'erreur
+                    document.getElementById('error').classList.add('active');
+                }
+            }
+        }, 5000);
+
+        // Détection mobile pour suggestions alternatives
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            console.log('Appareil mobile détecté');
+            // Sur mobile, préférer l'ouverture dans un nouvel onglet
+            setTimeout(() => {
+                const embed = document.getElementById('pdf-embed');
+                const iframe = document.getElementById('pdf-viewer');
+                if (embed) embed.style.display = 'none';
+                if (iframe) iframe.style.display = 'none';
+                
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('error').classList.add('active');
+            }, 2000);
+        }
+
+        // Smooth scroll pour les liens d'ancrage
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Notification de téléchargement
+        let downloadNotification = null;
+        function showDownloadNotification() {
+            if (downloadNotification) {
+                document.body.removeChild(downloadNotification);
+            }
+            
+            downloadNotification = document.createElement('div');
+            downloadNotification.className = 'fixed top-20 right-4 glass rounded-lg p-4 z-50 animate-bounce';
+            downloadNotification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-check-circle text-green-400 text-2xl"></i>
+                    <div>
+                        <p class="font-bold text-white">Téléchargement lancé !</p>
+                        <p class="text-sm text-gray-300">Si rien ne se passe, essayez "Ouvrir en plein écran"</p>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(downloadNotification);
+            
+            setTimeout(() => {
+                if (downloadNotification && document.body.contains(downloadNotification)) {
+                    document.body.removeChild(downloadNotification);
+                    downloadNotification = null;
+                }
+            }, 5000);
+        }
+
+        // Override forceDownload to show notification
+        const originalForceDownload = forceDownload;
+        forceDownload = function() {
+            showDownloadNotification();
+            originalForceDownload();
+        };
+    </script>
+
+</body>
+</html>
